@@ -13,16 +13,6 @@ return {
         end,
     },
     {
-      "echasnovski/mini.files",
-      config = function()
-        require("telescope").load_extension "file_browser"
-        vim.keymap.set("n", "<leader>m",  function()
-                                            if not require("mini.files").close() then require("mini.files").open() end
-                                          end)
-      end,
-      opts = {},
-    },
-    {
       "catppuccin",
       optional = true,
       ---@type CatppuccinOptions

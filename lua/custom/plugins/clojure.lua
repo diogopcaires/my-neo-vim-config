@@ -12,14 +12,6 @@ return {
     -- Clojure Language Server
     -- Clojure parser
     {
-      "nvim-treesitter/nvim-treesitter",
-      opts = function(_, opts)
-        if opts.ensure_installed ~= "all" then
-          opts.ensure_installed = {"clojure"}
-        end
-      end,
-    },
-    {
       "Olical/conjure",
       -- load plugin on filetypes
       ft = { "clojure" },
