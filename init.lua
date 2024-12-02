@@ -502,7 +502,8 @@ require('lazy').setup({
         'stylua', -- Used to format Lua code,
          'clojure-lsp',
          'typescript-language-server',
-         'biome'
+         'biome',
+         'gopls'
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -712,7 +713,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'bash', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'clojure', 'typescript', 'javascript', 'json' },
+      ensure_installed = { 'bash', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'clojure', 'typescript', 'javascript', 'json', 'go' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
