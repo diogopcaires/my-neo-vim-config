@@ -1,58 +1,89 @@
+local version = vim.version()
+local header = {
+  '⢠⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤',
+  '⢸⣿⡍⠉⠉⠻⣟⠛⢻⣟⡛⠻⣯⣍⠉⠙⠉⢉⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿',
+  '⢸⣿⠁⠀⢠⡴⠟⢻⣉⠉⡿⠶⣄⠙⢷⠶⠞⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿',
+  '⢸⣿⡇⣰⠟⢠⣾⡇⢹⣷⣧⠐⣿⠀⢸⣦⣰⠿⣿⣿⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⣿⣿',
+  '⢸⣿⣿⠋⠀⣿⣿⡇⢸⣿⣿⠀⡟⣠⣿⣿⡏⢸⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿',
+  '⢸⣿⠙⣷⡀⢹⣿⡇⢬⣭⣙⠻⣧⣭⡀⣸⡇⢠⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿',
+  '⢸⣿⡄⠈⠳⣦⡉⠓⠞⠛⣿⢣⡈⠻⣟⣯⣤⣼⣿⣿⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣾⣿⣿',
+  '⢸⣿⡇⠀⠀⠀⣽⠏⠹⣿⠟⠀⢿⣄⠈⢉⡿⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿',
+  '⢸⣿⣧⣤⣤⣼⣿⣷⣶⣾⣿⣶⣾⣿⣿⣿⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿',
+  '⢸⣿⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⣿⣿',
+  '⢸⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿',
+  '⢸⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿',
+  '⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇',
+  '⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃',
+  '⠀⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀',
+  '⠀⠀⢹⣿⡍⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⣿⣿⠀⠀',
+  '⠀⠀⠈⢻⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⣿⠃⠀⠀',
+  '⠀⠀⠀⠀⢿⣿⣄⠀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⢀⣀⣾⣿⠃⠀⠀⠀',
+  '⠀⠀⠀⠀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠃⠀⠀⠀⠀',
+  '⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠁⠀⠀⠀⠀⠀',
+  '⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀',
+  '⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣾⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀',
+  '⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⢿⣷⣤⡀⠀⠀⠀⠀⠀⢀⣠⣶⣿⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀',
+  '⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠻⢿⣷⣦⣤⣤⣶⣿⠿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀',
+  '⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠻⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ',
+}
+
+local center = {
+  {
+    desc = 'Find File ',
+    key = 'f',
+    icon = ' ',
+    action = 'Telescope find_files',
+    group = '@markup.heading.1.markdown',
+  },
+  {
+    desc = 'New File ',
+    key = 'n',
+    icon = ' ',
+    action = 'enew',
+    group = '@markup.heading.3.markdown',
+  },
+  {
+    desc = 'Reload Session ',
+    key = 'r',
+    icon = ' ',
+    action = 'SessionLoad',
+    group = '@markup.heading.4.markdown',
+  },
+  {
+    desc = 'Exit ',
+    key = 'q',
+    icon = ' ',
+    action = 'exit',
+    group = '@markup.heading.6.markdown',
+  },
+}
+
+local footer = {
+  '',
+  'nvim version ' .. version.major .. '.' .. version.minor,
+}
+
+vim.api.nvim_create_autocmd('Filetype', {
+  pattern = 'dashboard',
+  group = vim.api.nvim_create_augroup('Dashboard_au', { clear = true }),
+  callback = function()
+    vim.cmd [[
+            setlocal buftype=nofile
+            setlocal nonumber norelativenumber nocursorline noruler fillchars=eob:\ 
+            nnoremap <buffer> <F2> :h news.txt<CR> 
+        ]]
+  end,
+})
+
 return {
-    'nvimdev/dashboard-nvim',
-    event = 'VimEnter',
-    config = function()
-      require('dashboard').setup({
-            theme = 'doom',
-            config = {
-              header = {
-                    	"            :h-                                  Nhy`               ",
-                    	"           -mh.                           h.    `Ndho               ",
-                    	"           hmh+                          oNm.   oNdhh               ",
-                    	"          `Nmhd`                        /NNmd  /NNhhd               ",
-                    	"          -NNhhy                      `hMNmmm`+NNdhhh               ",
-                    	"          .NNmhhs              ```....`..-:/./mNdhhh+               ",
-                    	"           mNNdhhh-     `.-::///+++////++//:--.`-/sd`               ",
-                    	"           oNNNdhhdo..://++//++++++/+++//++///++/-.`                ",
-                    	"      y.   `mNNNmhhhdy+/++++//+/////++//+++///++////-` `/oos:       ",
-                    	" .    Nmy:  :NNNNmhhhhdy+/++/+++///:.....--:////+++///:.`:s+        ",
-                    	" h-   dNmNmy oNNNNNdhhhhy:/+/+++/-         ---:/+++//++//.`         ",
-                    	" hd+` -NNNy`./dNNNNNhhhh+-://///    -+oo:`  ::-:+////++///:`        ",
-                    	" /Nmhs+oss-:++/dNNNmhho:--::///    /mmmmmo  ../-///++///////.       ",
-                    	"  oNNdhhhhhhhs//osso/:---:::///    /yyyyso  ..o+-//////////:/.      ",
-                    	"   /mNNNmdhhhh/://+///::://////     -:::- ..+sy+:////////::/:/.     ",
-                    	"     /hNNNdhhs--:/+++////++/////.      ..-/yhhs-/////////::/::/`    ",
-                    	"       .ooo+/-::::/+///////++++//-/ossyyhhhhs/:///////:::/::::/:    ",
-                    	"       -///:::::::////++///+++/////:/+ooo+/::///////.::://::---+`   ",
-                    	"       /////+//++++/////+////-..//////////::-:::--`.:///:---:::/:   ",
-                    	"       //+++//++++++////+++///::--                 .::::-------::   ",
-                    	"       :/++++///////////++++//////.                -:/:----::../-   ",
-                    	"       -/++++//++///+//////////////               .::::---:::-.+`   ",
-                    	"       `////////////////////////////:.            --::-----...-/    ",
-                    	"        -///://////////////////////::::-..      :-:-:-..-::.`.+`    ",
-                    	"         :/://///:///::://::://::::::/:::::::-:---::-.-....``/- -   ",
-                    	"           ::::://::://::::::::::::::----------..-:....`.../- -+oo/ ",
-                    	"            -/:::-:::::---://:-::-::::----::---.-.......`-/.      ``",
-                    	"           s-`::--:::------:////----:---.-:::...-.....`./:          ",
-                    	"          yMNy.`::-.--::..-dmmhhhs-..-.-.......`.....-/:`           ",
-                    	"         oMNNNh. `-::--...:NNNdhhh/.--.`..``.......:/-              ",
-                    	"        :dy+:`      .-::-..NNNhhd+``..`...````.-::-`                ",
-                    	"                        .-:mNdhh:.......--::::-`                    ",
-                    	"                           yNh/..------..`                          ",
-                    	"                                                                    ",}, --your header
-              center = {
-                {
-                  icon = ' ',
-                  desc = 'Open Float Term',
-                  keymap = 'SPC t',
-                  key = 'f',
-                  key_format = ' %s', -- remove default surrounding `[]`
-                  action = '<cmd>:ToggleTerm direction=float name=float<CR>'
-                },
-              },
-              footer = {}  --your footer
-            }
-          })
-    end,
-    dependencies = { {'nvim-tree/nvim-web-devicons'}}
+  'nvimdev/dashboard-nvim',
+  opts = {
+    theme = 'hyper',
+    config = {
+      header = header,
+      shortcut = center,
+      footer = footer,
+      packages = { enable = false },
+    },
+  },
 }
