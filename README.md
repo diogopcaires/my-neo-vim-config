@@ -1,14 +1,1 @@
-# neo-vim-environment
-
-## Install
-
-```
-git clone https://github.com/diogopcaires/my-neo-vim-config.git ~/.config/nvim
-```
-
-## Description
-
-| Definitions | Path                       |
-|------------------ |----------------------|
-|lua/custom/plugins |  custom plugins      |
-|Color theme        | dracula              |
+![R](https://github.com/user-attachments/assets/828a6974-9781-4e3b-8362-681d82f8a9c2)

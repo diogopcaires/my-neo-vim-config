@@ -1,14 +1,4 @@
 return {
-  --       -- Parinfer parens management for Clojure
-  -- {
-  --   "gpanders/nvim-parinfer",
-  --   ft = { "clojure" },
-  --   init = function()
-  --     vim.g.parinfer_force_balance = true
-  --     vim.g.parinfer_comment_chars = ";;"
-  --   end,
-  -- },
-
   -- Clojure Language Server
   -- Clojure parser
   {
@@ -48,6 +38,32 @@ return {
       })
     end,
   },
+  { -- Highlight, edit, and navigate code
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate',
+    opts = {
+      ensure_installed = { 'bash', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'clojure', 'typescript', 'javascript', 'json', 'go' },
+      -- Autoinstall languages that are not installed
+      auto_install = true,
+      highlight = {
+        enable = true,
+        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
+        --  If you are experiencing weird indenting issues, add the language to
+        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
+        additional_vim_regex_highlighting = { 'ruby' },
+      },
+      indent = { enable = true, disable = { 'ruby' } },
+    },
+    config = function(_, opts)
+      -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+      
+      require('nvim-treesitter.install').compilers = { 'clang' }
+      -- Prefer git instead of curl in order to improve connectivity in some environments
+      require('nvim-treesitter.install').prefer_git = true
+      ---@diagnostic disable-next-line: missing-fields
+      require('nvim-treesitter.configs').setup(opts)
+    end,
+  },
   { 'tpope/vim-dispatch' },
   { 'clojure-vim/vim-jack-in' },
   { 'radenling/vim-dispatch-neovim' },
@@ -58,27 +74,6 @@ return {
     dependencies = {
       { 'hrsh7th/cmp-nvim-lsp' },
     },
-  },
-
-  { 'vim-surround' },
-  { 'tpope/vim-surround' },
-  {
-    'altermo/ultimate-autopair.nvim',
-    event = { 'InsertEnter', 'CmdlineEnter' },
-    branch = 'v0.6', --recommended as each new version will have breaking changes
-    opts = {
-      --Config goes here
-    },
-  },
-  {
-    'julienvincent/nvim-paredit',
-    config = function()
-      require('nvim-paredit').setup {
-        filetypes = { 'clojure' },
-        use_default_keys = true,
-        cursor_behaviour = 'follow',
-      }
-    end,
   },
   {
     'm00qek/baleia.nvim',
@@ -94,6 +89,13 @@ return {
       -- Command to show logs
       vim.api.nvim_create_user_command('BaleiaLogs', vim.g.baleia.logger.show, { bang = true })
     end,
+  },
+  {
+    "guns/vim-sexp",
+    ft = { "clojure" },
+    dependencies = {
+      "tpope/vim-sexp-mappings-for-regular-people",
+    },
   },
 }
 
