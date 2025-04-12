@@ -88,6 +88,11 @@ map('n', '<leader>ggs', '<cmd>Telescope git_status<cr>', { desc = "Git Status" }
 map('n', '<leader>ggc', '<cmd>Telescope git_commits<cr>', { desc = "Git Commits" })
 map('n', '<leader>ggb', '<cmd>Git blame<cr>', { desc = "Git Blame" })
 
+-- Spectre
+map('n', '<leader>rt', '<cmd>lua require("spectre").toggle()<CR>', {desc = "Toggle Spectre" })
+map('n', '<leader>rw', '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', {desc = "Search current word" })
+map('n', '<leader>rf', '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', {desc = "Search on current file" })
+
 -- General
 map('n', '<leader>w', '<cmd>w<cr>', { desc = "Write File" })
 map('n', '<leader>q', '<cmd>q<cr>', { desc = "Quit" })
