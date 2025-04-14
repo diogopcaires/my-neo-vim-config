@@ -1,3 +1,6 @@
+-- install zprint https://luals.github.io/#neovim-install
+-- install styLua https://github.com/JohnnyMorganz/StyLua?tab=readme-ov-file#homebrew
+
 return {
   "stevearc/conform.nvim",
   event = { "BufWritePre" },

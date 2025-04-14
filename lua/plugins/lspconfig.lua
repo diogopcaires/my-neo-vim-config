@@ -1,3 +1,5 @@
+-- install lua-language-server https://luals.github.io/#neovim-install
+
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
