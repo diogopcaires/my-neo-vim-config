@@ -29,7 +29,7 @@ return {
       local disable_format_on_save = {
         c = true,
         cpp = true,
-        clojure = true, -- evite formatação automática aqui
+        -- clojure = true, -- evite formatação automática aqui
       }
 
       if disable_format_on_save[ft] then
@@ -44,7 +44,7 @@ return {
 
     formatters_by_ft = {
       lua = { "stylua" },
-      clojure = { "zprint" }, -- Adiciona suporte a zprint, se instalado
+      -- clojure = { "zprint" }, -- Adiciona suporte a zprint, se instalado
       -- Exemplo com múltiplos formatadores:
       -- python = { "isort", "black" },
       -- javascript = { "prettierd", "prettier", stop_after_first = true },
