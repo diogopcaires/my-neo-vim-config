@@ -18,6 +18,20 @@ return {
       desc = "Format buffer",
     },
   },
+  init = function()
+    -- 2-space editing indentation for JSON/JSONC
+    local group = vim.api.nvim_create_augroup("JsonIndent", { clear = true })
+    vim.api.nvim_create_autocmd("FileType", {
+      group = group,
+      pattern = { "json", "jsonc" },
+      callback = function(ev)
+        vim.bo[ev.buf].expandtab = true
+        vim.bo[ev.buf].shiftwidth = 2
+        vim.bo[ev.buf].tabstop = 2
+      end,
+      desc = "Use 2-space indentation for JSON files",
+    })
+  end,
   opts = {
     notify_on_error = false,
 
@@ -44,10 +58,20 @@ return {
 
     formatters_by_ft = {
       lua = { "stylua" },
+      json = { "jq", "prettier", "prettierd", stop_after_first = true },
+      jsonc = { "prettier", "prettierd", stop_after_first = true },
       -- clojure = { "zprint" }, -- Adiciona suporte a zprint, se instalado
       -- Exemplo com múltiplos formatadores:
       -- python = { "isort", "black" },
       -- javascript = { "prettierd", "prettier", stop_after_first = true },
+    },
+    formatters = {
+      jq = {
+        prepend_args = { "--indent", "2" },
+      },
+      prettier = {
+        prepend_args = { "--tab-width", "2", "--use-tabs", "false" },
+      },
     },
   },
 }

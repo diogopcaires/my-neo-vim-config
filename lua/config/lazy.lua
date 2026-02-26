@@ -18,6 +18,20 @@ vim.opt.rtp:prepend(lazypath)
 -- Setup options
 require("config.opt")
 
+-- Patch global para evitar "nvim_echo must not be called in a fast event context"
+do
+  local orig_notify = vim.notify
+  vim.notify = function(msg, level, opts)
+    if vim.in_fast_event() then
+      vim.schedule(function()
+        orig_notify(msg, level, opts)
+      end)
+    else
+      orig_notify(msg, level, opts)
+    end
+  end
+end
+
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {
@@ -33,3 +47,4 @@ require("lazy").setup({
 
 -- Setup keymaps
 require("config.keymaps")
+

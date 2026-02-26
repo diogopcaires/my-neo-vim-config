@@ -1,10 +1,10 @@
 return -- lazy --
 {
-  'mg979/vim-visual-multi',
-  branch = 'master',
+  "mg979/vim-visual-multi",
+  branch = "master",
   init = function()
     vim.g.VM_maps = {
-      ['Find Under'] = '<C-d>',
+      ["Find Under"] = "<C-d>",
     }
   end,
 }

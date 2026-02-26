@@ -14,7 +14,7 @@ return {
       vim.keymap.set("n", "ga", "<Plug>(EasyAlign)", {})
 
       -- Align maps {:key value}
-      vim.keymap.set("n", "={", "vi{<C-v>$:EasyAlign\\ g/^\\S/<cr>", {})
+      vim.keymap.set("n", "!{", "vi{<C-v>$:EasyAlign\\ g/^\\S/<cr>", {})
 
       -- Align vectors [a b c]
       vim.keymap.set("n", "=[", "vi[<C-v>$:EasyAlign\\ g/^\\S/<cr>", {})
